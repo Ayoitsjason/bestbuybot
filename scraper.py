@@ -2,24 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import smtplib, ssl
 import time
-
-
-# Get URL
-URL = "https://www.theragun.com/us/en-us/pro-us.html"
-
-# Get Header
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36"
-}
-
-smtp_server = "smtp.gmail.com"
-port = 587
-sender_email = "jasonclebot@gmail.com"
-password = "wsnvkrghlqbenfne"
-
-context = ssl.create_default_context()
+from bot import order
+from config import keys
 
 def check_price(): 
+
+    # Get URL
+    URL = "https://www.theragun.com/us/en-us/pro-us.html"
+
+    # Get Header
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36"
+    }
+
     page = requests.get(URL, headers=headers)
 
     print(page)
@@ -36,11 +31,18 @@ def check_price():
 
     print(converted_price)
 
-    if(converted_price < 550.0):
+    if(converted_price > 550.0):
+        order(keys)
         print("Sending Email!")
         send_email()
 
 def send_email():
+    smtp_server = "smtp.gmail.com"
+    port = 587
+    sender_email = "jasonclebot@gmail.com"
+    password = "wsnvkrghlqbenfne"
+
+    context = ssl.create_default_context()
     try:
         server = smtplib.SMTP(smtp_server, port)
         server.ehlo()
@@ -49,7 +51,7 @@ def send_email():
         server.login(sender_email, password)
 
         subject = "Price fell down!"
-        body = "https://www.theragun.com/us/en-us/pro-us.html"
+        body = "Order now placed. \n Here is the link: https://www.theragun.com/us/en-us/pro-us.html"
 
         msg = f"Subject: {subject}\n\n{body}"
 
@@ -66,6 +68,6 @@ def send_email():
     finally:
         server.quit()
 
-while(True):
+# MAIN
+if __name__ == '__main__':
     check_price()
-    time.sleep(5)

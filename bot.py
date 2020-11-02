@@ -1,7 +1,6 @@
 from selenium import webdriver
 from config import keys
 import time
-import check_price, send_email
 
 
 def order(k):
@@ -30,15 +29,10 @@ def order(k):
     time.sleep(3)
     driver.find_element_by_xpath('//*[@id="dwfrm_billing_paymentMethods_creditCard_owner"]').send_keys(k["owner"])
     time.sleep(2)
-    print(k["cardnumber"])
     driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[4]/div/div[1]/form/fieldset[3]/div[1]/div[1]/div[2]/div[2]/div[1]/input').send_keys(k["cardnumber"])
-    print('test 2')
     time.sleep(2)
     driver.find_element_by_xpath('//*[@id="dwfrm_billing_paymentMethods_creditCard_expiration_month"]/option[8]').click()
     driver.find_element_by_xpath('//*[@id="dwfrm_billing_paymentMethods_creditCard_expiration_year"]/option[3]').click()
     driver.find_element_by_xpath('/html/body/div[1]/div[3]/div[4]/div/div[1]/form/fieldset[3]/div[1]/div[1]/div[2]/div[4]/div/div[3]/div[1]/input').send_keys(k["cvv"])
 
-    print('finished')
-
-if __name__ == '__main__':
-    order(keys)
+    print('Order Placed')
