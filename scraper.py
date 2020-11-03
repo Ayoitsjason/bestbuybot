@@ -31,10 +31,11 @@ def check_price():
 
     print(converted_price)
 
-    if(converted_price > 550.0):
-        order(keys)
+    if(converted_price < 550.0):
         print("Sending Email!")
         send_email()
+        return 1
+        
 
 def send_email():
     smtp_server = "smtp.gmail.com"
@@ -70,4 +71,9 @@ def send_email():
 
 # MAIN
 if __name__ == '__main__':
-    check_price()
+    while(True):
+        print("Checking price!")
+        check = check_price()
+        if (check == 1):
+            break
+        time.sleep(5)
