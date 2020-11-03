@@ -51,8 +51,8 @@ def send_email():
         server.ehlo()
         server.login(sender_email, password)
 
-        subject = "Price fell down!"
-        body = "Order now placed. \n Here is the link: https://www.theragun.com/us/en-us/pro-us.html"
+        subject = "Bot still running"
+        body = "Checking price for: https://www.theragun.com/us/en-us/pro-us.html"
 
         msg = f"Subject: {subject}\n\n{body}"
 
@@ -73,7 +73,8 @@ def send_email():
 if __name__ == '__main__':
     while(True):
         print("Checking price!")
+        send_email()
         check = check_price()
         if (check == 1):
             break
-        time.sleep(5)
+        time.sleep(10)
